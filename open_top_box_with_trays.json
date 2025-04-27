@@ -1,0 +1,29 @@
+{
+    "parameterSets": {
+        "small lipstick box": {
+            "divider_thickness": "2",
+            "fillet_radius": "2",
+            "floor_thickness": "4",
+            "tolerance": "0.001",
+            "tray_count": "3",
+            "tray_height": "45",
+            "tray_length": "69",
+            "tray_width": "25",
+            "wall_thickness": "2"
+        },
+        "big make up box": {
+            "divider_thickness": "2",
+            "fillet_radius": "2",
+            "floor_thickness": "4",
+            "tolerance": "0.001",
+            "tray_count": "3",
+            "tray_height": "69",
+            "tray_length": "150",
+            "tray_width": "35",
+            "wall_thickness": "2"
+        }
+    },
+    "fileFormatVersion": "1",
+    "parameterSets": "",
+    "parameterSets": ""
+}
