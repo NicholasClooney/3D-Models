@@ -6,8 +6,8 @@ where I collect my parameteric 3D models written in OpenSCAD
 
 `open_top_box_with_trays.scad`
 
-<img height="300" alt="small lipstick tray" src="https://github.com/user-attachments/assets/4bb1ac3d-bd67-4382-959b-4e88f3463131" />
-<img height="300" alt="bigger makeup stuff tray" src="https://github.com/user-attachments/assets/3c18a136-7dbb-4f65-9790-0b6b51c71bbe" />
+<img width="300" alt="small lipstick tray" src="https://github.com/user-attachments/assets/4bb1ac3d-bd67-4382-959b-4e88f3463131" />
+<img width="300" alt="bigger makeup stuff tray" src="https://github.com/user-attachments/assets/3c18a136-7dbb-4f65-9790-0b6b51c71bbe" />
 
 
 This project is a customizable **open-top box** design with multiple trays, created in OpenSCAD.
