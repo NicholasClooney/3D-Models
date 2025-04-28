@@ -83,6 +83,7 @@ module dividers() {
 }
 
 module walls_only_box() {
+    resize([box_length, box_width, box_height])
     fillet(box_fillet_radius) {
         difference() {
             cube([box_length, box_width, box_height], center=true);
