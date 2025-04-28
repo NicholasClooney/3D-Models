@@ -1,3 +1,14 @@
+// =======================================================
+// Parametric Open-Top Box with Dividers and Filleted Edges
+// Version: 1.0
+// Author: Nicholas Clooney
+// Description:
+// This OpenSCAD script generates a customizable open-top box
+// with adjustable tray count, dimensions, wall thickness,
+// divider thickness, and optional filleted edges.
+// All dimensions are fully parametric and easy to modify.
+// =======================================================
+
 // ======================
 // Parameters (define tray first)
 // ======================
@@ -56,6 +67,24 @@ module filleted_box(size, fillet_radius) {
     }
 }
 
+module filleted_box_walls(size, thickness, fillet_radius) {
+    resize(size)
+    fillet(fillet_radius) {
+        box_walls(size, thickness);
+    }
+}
+
+module box_walls(size, thickness) {
+    difference() {
+        cube(size, center=true);
+        cube([size[0] - 2 * thickness, size[1] - 2 * thickness, size[2]], center=true);
+    }
+}
+
+// ======================
+// Box Modules
+// ======================
+
 module dividers() {
     for (i = [1 : tray_count - 1]) {
         // since we are centered, and it should be at n * tray_width + how many existing dividers and the half divider width to be centered...
@@ -69,20 +98,6 @@ module dividers() {
     }
 }
 
-module box_walls(size, thickness) {
-    difference() {
-        cube(size, center=true);
-        cube([size[0] - 2 * thickness, size[1] - 2 * thickness, size[2]], center=true);
-    }
-}
-
-module filleted_box_walls(size, thickness, fillet_radius) {
-    resize(size)
-    fillet(fillet_radius) {
-        box_walls(size, thickness);
-    }
-}
-
 module filleted_walls() {
     filleted_box_walls([box_length, box_width, box_height], wall_thickness, box_fillet_radius);
 }
@@ -92,7 +107,6 @@ module inner_bottom_plate() {
 }
 
 module open_top_box() {
-    // fillet(fillet_radius)
     filleted_walls();
 
     translate([0, 0, -box_height/2 + floor_thickness/2])
