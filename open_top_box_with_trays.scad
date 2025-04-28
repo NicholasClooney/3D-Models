@@ -17,6 +17,7 @@ divider_thickness = 2; // Divider thickness
 
 // Fillet radius
 box_fillet_radius = wall_thickness / 2;     // Corner rounding radius
+divider_fillet_radius = divider_thickness / 2;
 
 // ======================
 // Derived dimensions
@@ -48,6 +49,13 @@ module fillet(r) {
     }
 }
 
+module filleted_box(size, fillet_radius) {
+    resize(size)
+    fillet(fillet_radius) {
+        cube(size, center=true);
+    }
+}
+
 module dividers() {
     for (i = [1 : tray_count - 1]) {
         // since we are centered, and it should be at n * tray_width + how many existing dividers and the half divider width to be centered...
@@ -57,8 +65,7 @@ module dividers() {
             0,
             0
         ])
-        cube([divider_thickness, inner_width, inner_height], center=true);
-        //fillet_box(divider_thickness, inner_width, inner_height, divider_fillet_radius);
+        filleted_box([divider_thickness, inner_width, inner_height], divider_fillet_radius);
     }
 }
 
@@ -85,6 +92,7 @@ module inner_bottom_plate() {
 }
 
 module open_top_box() {
+    // fillet(fillet_radius)
     filleted_walls();
 
     translate([0, 0, -box_height/2 + floor_thickness/2])
