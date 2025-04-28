@@ -17,7 +17,6 @@ divider_thickness = 2; // Divider thickness
 
 // Fillet radius
 box_fillet_radius = wall_thickness / 2;     // Corner rounding radius
-divider_fillet_radius = divider_thickness / 2;
 
 // ======================
 // Derived dimensions
@@ -41,31 +40,12 @@ module debug(name, l, w, h) {
 // Helper Modules
 // ======================
 
-// Fillet a box, adjusting for size shrinkage automatically
-module fillet_box(l, w, h, r) {
-    resize([l, w, h])
-        fillet(r) {
-            cube([l, w, h], center=true);
-        }
-}
-
 module fillet(r) {
     minkowski() {
         children();  // this means "apply to whatever shape is inside"
         resize([r, r, r])
             sphere(10); // Or sphere(r) if you want a perfect sphere
     }
-}
-
-module box_body() {
-    debug("box body", box_length, box_width, box_height);
-    cube([box_length, box_width, box_height], center=true);
-    //fillet_box(box_length, box_width, box_height, box_fillet_radius);
-}
-
-module inner_space() {
-    debug("inner space", inner_length, inner_width, inner_height);
-    cube([inner_length, inner_width, inner_height], center=true);
 }
 
 module dividers() {
@@ -96,20 +76,19 @@ module filleted_box_walls(size, thickness, fillet_radius) {
     }
 }
 
-module walls_only_box() {
+module filleted_walls() {
     filleted_box_walls([box_length, box_width, box_height], wall_thickness, box_fillet_radius);
 }
 
-module bottom_plate() {
+module inner_bottom_plate() {
     cube([inner_length + tolerance, inner_width + tolerance, floor_thickness], center=true);
 }
 
 module open_top_box() {
-    // fillet(fillet_radius)
-    walls_only_box();
+    filleted_walls();
 
     translate([0, 0, -box_height/2 + floor_thickness/2])
-        bottom_plate();
+        inner_bottom_plate();
 
     translate([0, 0, (box_height - inner_height)/2 + tolerance])
         dividers();
