@@ -16,7 +16,8 @@ floor_thickness = 4;   // Bottom thickness
 divider_thickness = 2; // Divider thickness
 
 // Fillet radius
-fillet_radius = 2;     // Corner rounding radius
+box_fillet_radius = wall_thickness / 2;     // Corner rounding radius
+divider_fillet_radius = divider_thickness / 2;
 
 // ======================
 // Derived dimensions
@@ -42,9 +43,10 @@ module debug(name, l, w, h) {
 
 // Fillet a box, adjusting for size shrinkage automatically
 module fillet_box(l, w, h, r) {
-    fillet(r) {
-        cube([l - 2 * r, w - 2 * r, h - 2 * r], center=true);
-    }
+    resize([l, w, h])
+        fillet(r) {
+            cube([l, w, h], center=true);
+        }
 }
 
 module fillet(r) {
@@ -58,6 +60,7 @@ module fillet(r) {
 module box_body() {
     debug("box body", box_length, box_width, box_height);
     cube([box_length, box_width, box_height], center=true);
+    //fillet_box(box_length, box_width, box_height, box_fillet_radius);
 }
 
 module inner_space() {
@@ -75,15 +78,21 @@ module dividers() {
             0
         ])
         cube([divider_thickness, inner_width, inner_height], center=true);
+        //fillet_box(divider_thickness, inner_width, inner_height, divider_fillet_radius);
+    }
+}
+
+module walls_only_box() {
+    fillet(box_fillet_radius) {
+        difference() {
+            cube([box_length, box_width, box_height], center=true);
+            cube([inner_length, inner_width, box_height], center=true);
+        }
     }
 }
 
 module open_top_box() {
-    difference() {
-        box_body();
-        translate([0, 0, (box_height - inner_height)/2 + tolerance])
-            inner_space();
-    }
+    walls_only_box();
 
     translate([0, 0, (box_height - inner_height)/2 + tolerance])
         dividers();
