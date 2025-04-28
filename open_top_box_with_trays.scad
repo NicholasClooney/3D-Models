@@ -91,8 +91,16 @@ module walls_only_box() {
     }
 }
 
+module bottom_plate() {
+    cube([inner_length + tolerance, inner_width + tolerance, floor_thickness], center=true);
+}
+
 module open_top_box() {
+    // fillet(fillet_radius)
     walls_only_box();
+
+    translate([0, 0, -box_height/2 + floor_thickness/2])
+        bottom_plate();
 
     translate([0, 0, (box_height - inner_height)/2 + tolerance])
         dividers();
