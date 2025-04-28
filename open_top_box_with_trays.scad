@@ -82,14 +82,22 @@ module dividers() {
     }
 }
 
-module walls_only_box() {
-    resize([box_length, box_width, box_height])
-    fillet(box_fillet_radius) {
-        difference() {
-            cube([box_length, box_width, box_height], center=true);
-            cube([inner_length, inner_width, box_height], center=true);
-        }
+module box_walls(size, thickness) {
+    difference() {
+        cube(size, center=true);
+        cube([size[0] - 2 * thickness, size[1] - 2 * thickness, size[2]], center=true);
     }
+}
+
+module filleted_box_walls(size, thickness, fillet_radius) {
+    resize(size)
+    fillet(fillet_radius) {
+        box_walls(size, thickness);
+    }
+}
+
+module walls_only_box() {
+    filleted_box_walls([box_length, box_width, box_height], wall_thickness, box_fillet_radius);
 }
 
 module bottom_plate() {
